@@ -46,13 +46,13 @@
 	if ($api == 'PUT') {
 	  parse_str(file_get_contents('php://input'), $post_input);
 
-	  $g01 = $tuple->test_input($_POST['nomfranchise']);
-	  $g02 = $tuple->test_input($_POST['sexegerant']);
-	  $g03 = $tuple->test_input($_POST['nomgerant']);
-		$g04 = $tuple->test_input($_POST['mail']);
-		$g05 = $tuple->test_input($_POST['password']);
-		$g06 = $tuple->test_input($_POST['actif']);
-		$g07 = $tuple->test_input($_POST['grantsid']);
+	  $g01 = $tuple->test_input($post_input['nomfranchise']);
+	  $g02 = $tuple->test_input($post_input['sexegerant']);
+	  $g03 = $tuple->test_input($post_input['nomgerant']);
+		$g04 = $tuple->test_input($post_input['mail']);
+		$g05 = $tuple->test_input($post_input['password']);
+		$g06 = $tuple->test_input($post_input['actif']);
+		$g07 = $tuple->test_input($post_input['grantsid']);
 
 	  if ($id != null) {
 	    if ($tuple->update($g01, $g02, $g03, $g04, $g05, $g06, $g07, $id)) {

@@ -42,12 +42,12 @@
 	if ($api == 'PUT') {
 	  parse_str(file_get_contents('php://input'), $post_input);
 
-	  $g01 = $tuple->test_input($_POST['name']);
-		$g02 = $tuple->test_input($_POST['password']);
-		$g03 = $tuple->test_input($_POST['email']);
+	  $g01 = $tuple->test_input($post_input['name']);
+		$g02 = $tuple->test_input($post_input['password']);
+		$g03 = $tuple->test_input($post_input['email']);
 
 	  if ($id != null) {
-	    if ($tuple->update($g01, $g02, $g03, $id)) {
+	    if ($g01 !== '' && $g02 !== '' && $g03 !== '' && $tuple->update($g01, $g02, $g03, $id)) {
 	      echo $tuple->message('Utilisateur modifié avec succès !',false);
 	    } else {
 	      echo $tuple->message('Erreur lors de la modification du Utilisateur !',true);

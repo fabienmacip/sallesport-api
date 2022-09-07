@@ -50,17 +50,17 @@
 	if ($api == 'PUT') {
 	  parse_str(file_get_contents('php://input'), $post_input);
 
-	  $g01 = $tuple->test_input($_POST['adr1']);
-		$g02 = $tuple->test_input($_POST['adr2']);
-		$g03 = $tuple->test_input($_POST['cp']);
-		$g04 = $tuple->test_input($_POST['ville']);
-		$g05 = $tuple->test_input($_POST['mail']);
-		$g06 = $tuple->test_input($_POST['password']);
-	  $g07 = $tuple->test_input($_POST['sexegerant']);
-	  $g08 = $tuple->test_input($_POST['nomgerant']);
-		$g09 = $tuple->test_input($_POST['actif']);
-		$g10 = $tuple->test_input($_POST['partenaireid']);
-		$g11 = $tuple->test_input($_POST['grantsid']);
+	  $g01 = $tuple->test_input($post_input['adr1']);
+		$g02 = $tuple->test_input($post_input['adr2']);
+		$g03 = $tuple->test_input($post_input['cp']);
+		$g04 = $tuple->test_input($post_input['ville']);
+		$g05 = $tuple->test_input($post_input['mail']);
+		$g06 = $tuple->test_input($post_input['password']);
+	  $g07 = $tuple->test_input($post_input['sexegerant']);
+	  $g08 = $tuple->test_input($post_input['nomgerant']);
+		$g09 = $tuple->test_input($post_input['actif']);
+		$g10 = $tuple->test_input($post_input['partenaireid']);
+		$g11 = $tuple->test_input($post_input['grantsid']);
 
 	  if ($id != null) {
 	    if ($tuple->update($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11, $id)) {

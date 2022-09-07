@@ -53,20 +53,20 @@
 	if ($api == 'PUT') {
 	  parse_str(file_get_contents('php://input'), $post_input);
 
-	  $g01 = $tuple->test_input($_POST['membersread']);
-	  $g02 = $tuple->test_input($_POST['memberswrite']);
-	  $g03 = $tuple->test_input($_POST['membersadd']);
-		$g04 = $tuple->test_input($_POST['membersupdate']);
-		$g05 = $tuple->test_input($_POST['membersproductsadd']);
-		$g06 = $tuple->test_input($_POST['memberspaymentscheduleread']);
-		$g07 = $tuple->test_input($_POST['membersstatsread']);
-		$g08 = $tuple->test_input($_POST['memberssubscriptionread']);
-		$g09 = $tuple->test_input($_POST['paymentschedulesread']);
-		$g10 = $tuple->test_input($_POST['paymentscheduleswrite']);
-		$g11 = $tuple->test_input($_POST['paymentdayread']);
-		$g12 = $tuple->test_input($_POST['drinksell']);
-		$g13 = $tuple->test_input($_POST['foodsell']);
-		$g14 = $tuple->test_input($_POST['sendnewsletter']);
+	  $g01 = $tuple->test_input($post_input['membersread']);
+	  $g02 = $tuple->test_input($post_input['memberswrite']);
+	  $g03 = $tuple->test_input($post_input['membersadd']);
+		$g04 = $tuple->test_input($post_input['membersupdate']);
+		$g05 = $tuple->test_input($post_input['membersproductsadd']);
+		$g06 = $tuple->test_input($post_input['memberspaymentscheduleread']);
+		$g07 = $tuple->test_input($post_input['membersstatsread']);
+		$g08 = $tuple->test_input($post_input['memberssubscriptionread']);
+		$g09 = $tuple->test_input($post_input['paymentschedulesread']);
+		$g10 = $tuple->test_input($post_input['paymentscheduleswrite']);
+		$g11 = $tuple->test_input($post_input['paymentdayread']);
+		$g12 = $tuple->test_input($post_input['drinksell']);
+		$g13 = $tuple->test_input($post_input['foodsell']);
+		$g14 = $tuple->test_input($post_input['sendnewsletter']);
 
 	  if ($id != null) {
 	    if ($tuple->update($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11, $g12, $g13, $g14, $id)) {
