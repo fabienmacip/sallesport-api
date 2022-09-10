@@ -16,11 +16,26 @@
 
 	// Get all or a single structure from database
 	if ($api == 'GET') {
-	  if ($id != 0) {
-	    $data = $tuple->fetch($id);
-	  } else {
-	    $data = $tuple->fetch();
-	  }
+
+	if(isset($_GET['id'])) {
+		$id = $_GET['id'];
+	}
+
+	if(isset($_GET['partenaireId'])) {
+		$partenaireId = $_GET['partenaireId'];
+	}
+
+
+	  if(isset($partenaireId) && $partenaireId != 0){
+			$data = $tuple->fetchLinkedToPartenaire($partenaireId);
+		} else {
+			if (isset($id) && $id != 0) {
+				$data = $tuple->fetch($id);
+			} else {
+				$data = $tuple->fetch();
+			}
+		}
+		
 	  echo json_encode($data);
 	}
 
@@ -35,8 +50,8 @@
 	  $g07 = $tuple->test_input($_POST['sexegerant']);
 	  $g08 = $tuple->test_input($_POST['nomgerant']);
 		$g09 = $tuple->test_input($_POST['actif']);
-		$g10 = $tuple->test_input($_POST['partenaireid']);
-		$g11 = $tuple->test_input($_POST['grantsid']);
+		$g10 = $tuple->test_input($_POST['partenaire']);
+		$g11 = $tuple->test_input($_POST['grants']);
 
 	  if ($g01 !== '' && $g04 !== '' && $g05 !== '' && 
 				$tuple->insert($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11)) {
@@ -59,8 +74,8 @@
 	  $g07 = $tuple->test_input($post_input['sexegerant']);
 	  $g08 = $tuple->test_input($post_input['nomgerant']);
 		$g09 = $tuple->test_input($post_input['actif']);
-		$g10 = $tuple->test_input($post_input['partenaireid']);
-		$g11 = $tuple->test_input($post_input['grantsid']);
+		$g10 = $tuple->test_input($post_input['partenaire']);
+		$g11 = $tuple->test_input($post_input['grants']);
 
 	  if ($id != null) {
 	    if ($tuple->update($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11, $id)) {

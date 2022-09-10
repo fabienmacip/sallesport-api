@@ -20,28 +20,40 @@
 	    return $rows;
 	  }
 
+    // Fetch all structures linked to a partenaire from database
+		//readStructuresOfPartenaire
+	  public function fetchLinkedToPartenaire($id) {
+	    $sql = 'SELECT * FROM structure WHERE partenaire = :id';
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(['id' => $id]);
+	    $rows = $stmt->fetchAll();
+	    return $rows;
+	  }
+
+
+
 	  // Insert a structure in the database
-	  public function insert($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaireid ,$grantsid) {
-	    $sql = 'INSERT INTO structure (adr1, adr2, cp, ville, mail, password, sexegerant, nomgerant, actif, partenaireid, grantsid) 
-											VALUES (:adr1, :adr2, :cp, :ville, :mail, :password, :sexegerant, :nomgerant, :actif, :partenaireid, :grantsid)';
+	  public function insert($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaire ,$grants) {
+	    $sql = 'INSERT INTO structure (adr1, adr2, cp, ville, mail, password, sexegerant, nomgerant, actif, partenaire, grants) 
+											VALUES (:adr1, :adr2, :cp, :ville, :mail, :password, :sexegerant, :nomgerant, :actif, :partenaire, :grants)';
 	    $stmt = $this->conn->prepare($sql);
 	    $stmt->execute(['adr1' => $adr1, 'adr2' => $adr2, 'cp' => $cp, 'ville' => $ville,  
 											'mail' => $mail,  'password' => $password, 'sexegerant' => $sexegerant, 
-											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaireid' => $partenaireid, 
-											'grantsid' => $grantsid]);
+											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaire' => $partenaire, 
+											'grants' => $grants]);
 	    return true;
 	  }
 
 	  // Update a structure in the database
-	  public function update($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaireid ,$grantsid, $id) {
+	  public function update($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaire ,$grants, $id) {
 	    $sql = 'UPDATE structure SET adr1 = :adr1, adr2 = :adr2, cp = :cp, ville = :ville, mail = :mail, 
 																	 password = :password, sexegerant = :sexegerant, nomgerant = :nomgerant, 
-																	 actif = :actif, partenaireid = :partenaireid, grantsid = :grantsid WHERE id = :id';
+																	 actif = :actif, partenaire = :partenaire, grants = :grants WHERE id = :id';
 	    $stmt = $this->conn->prepare($sql);
 	    $stmt->execute(['adr1' => $adr1, 'adr2' => $adr2, 'cp' => $cp, 'ville' => $ville,  
 											'mail' => $mail,  'password' => $password, 'sexegerant' => $sexegerant, 
-											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaireid' => $partenaireid, 
-											'grantsid' => $grantsid, 'id' => $id]);
+											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaire' => $partenaire, 
+											'grants' => $grants, 'id' => $id]);
 	    return true;
 	  }
 

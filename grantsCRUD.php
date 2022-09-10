@@ -47,6 +47,15 @@
 	    return true;
 	  }
 
+	  // Update one grant in the database
+	  public function updateOne($id, $grant, $actif) {
+	    $sql = 'UPDATE grants SET `'.$grant.'` = :actif WHERE id = :id';
+	    $stmt = $this->conn->prepare($sql);
+			$stmt->execute(['actif' => $actif, 'id' => $id]);
+	    return true;
+	  }
+
+
 	  // Update a grant in the database
 	  public function update($membersread, $memberswrite, $membersadd, $membersupdate, $membersproductsadd, 
 														$memberspaymentscheduleread, $membersstatsread, $memberssubscriptionread, 
