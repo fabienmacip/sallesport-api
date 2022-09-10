@@ -34,13 +34,41 @@
 
 	  // Insert a structure in the database
 	  public function insert($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaire ,$grants) {
-	    $sql = 'INSERT INTO structure (adr1, adr2, cp, ville, mail, password, sexegerant, nomgerant, actif, partenaire, grants) 
-											VALUES (:adr1, :adr2, :cp, :ville, :mail, :password, :sexegerant, :nomgerant, :actif, :partenaire, :grants)';
-	    $stmt = $this->conn->prepare($sql);
-	    $stmt->execute(['adr1' => $adr1, 'adr2' => $adr2, 'cp' => $cp, 'ville' => $ville,  
+
+			$partenaire = (int)$partenaire;
+
+			$sql = 'INSERT INTO `grants` (`membersread`, `memberswrite`, `membersadd`, `membersupdate`, 
+							`membersproductsadd`, `memberspaymentscheduleread`, `membersstatsread`, 
+							`memberssubscriptionread`, `paymentschedulesread`, `paymentscheduleswrite`, 
+							`paymentdayread`, `drinksell`, `foodsell`, `sendnewsletter`) 
+							SELECT `membersread`, `memberswrite`, `membersadd`, `membersupdate`, 
+							`membersproductsadd`, `memberspaymentscheduleread`, `membersstatsread`, 
+							`memberssubscriptionread`, `paymentschedulesread`, `paymentscheduleswrite`, 
+							`paymentdayread`, `drinksell`, `foodsell`, `sendnewsletter` 
+							FROM `grants` WHERE `id` = (SELECT grants FROM partenaire WHERE id = :partenaire)';
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(['partenaire' => $partenaire]);
+
+
+			$sql2 = 'INSERT INTO structure (adr1, adr2, cp, ville, mail, password, sexegerant, nomgerant, actif, partenaire, grants) 
+											VALUES (:adr1, :adr2, :cp, :ville, :mail, :password, :sexegerant, :nomgerant, :actif, :partenaire, 
+											(SELECT `id` FROM `grants` ORDER BY `id` DESC LIMIT 1))';
+	    $stmt2 = $this->conn->prepare($sql2);
+	    $stmt2->execute(['adr1' => $adr1, 'adr2' => $adr2, 'cp' => $cp, 'ville' => $ville,  
 											'mail' => $mail,  'password' => $password, 'sexegerant' => $sexegerant, 
-											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaire' => $partenaire, 
-											'grants' => $grants]);
+											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaire' => $partenaire]);
+	    return true;
+	  }
+
+	  // Update a structure ACTIF column in the database
+	  public function updateActif($id, $actif) {
+
+			$id = (int)$id;
+			$actif = (int)$actif;
+
+	    $sql = 'UPDATE structure SET actif = :actif WHERE id = :id';
+	    $stmt = $this->conn->prepare($sql);
+	    $stmt->execute(['actif' => $actif, 'id' => $id]);
 	    return true;
 	  }
 
@@ -59,9 +87,14 @@
 
 	  // Delete a structure from database
 	  public function delete($id) {
-	    $sql = 'DELETE FROM structure WHERE id = :id';
-	    $stmt = $this->conn->prepare($sql);
-	    $stmt->execute(['id' => $id]);
+
+			$sql = 'DELETE FROM grants WHERE id = (SELECT grants FROM structure WHERE id = :id)';
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(['id' => $id]);
+
+	    $sql2 = 'DELETE FROM structure WHERE id = :id';
+	    $stmt2 = $this->conn->prepare($sql2);
+	    $stmt2->execute(['id' => $id]);
 	    return true;
 	  }
 	}
