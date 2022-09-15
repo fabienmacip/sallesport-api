@@ -13,9 +13,21 @@
 			$sql = 'SELECT id, name, email FROM user WHERE email = :mail AND password = :pwd ORDER BY id DESC LIMIT 1';
 			$stmt = $this->conn->prepare($sql);
 			$stmt->execute(['mail' => $mail, 'pwd' => $pwd]);
-			
 			$rows = $stmt->fetchAll();
-			return $rows;
+
+			if(empty($rows)){
+				$sql2 = 'SELECT id, nomfranchise, mail FROM partenaire WHERE mail = :mail AND password = :pwd ORDER BY id DESC LIMIT 1';
+				
+				$stmt2 = $this->conn->prepare($sql2);
+				$stmt2->execute(['mail' => $mail, 'pwd' => $pwd]);
+				$rows2 = $stmt2->fetchAll();
+				return $rows2;
+				
+				die();
+			} else {
+				return $rows;
+			}
+
 		}
 		
 
