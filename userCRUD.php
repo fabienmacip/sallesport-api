@@ -3,7 +3,22 @@
 	include_once 'config.php';
 
 	class UserCRUD extends Config {
-	  
+
+		// Find user with mail & password
+		public function fetchLogin($mail, $pwd) {
+
+			$pwd = trim($pwd);
+			$mail = trim($mail);
+
+			$sql = 'SELECT id, name, email FROM user WHERE email = :mail AND password = :pwd ORDER BY id DESC LIMIT 1';
+			$stmt = $this->conn->prepare($sql);
+			$stmt->execute(['mail' => $mail, 'pwd' => $pwd]);
+			
+			$rows = $stmt->fetchAll();
+			return $rows;
+		}
+		
+
     // Fetch all or a single user from database
 	  public function fetch($id = 0) {
 	    $sql = 'SELECT * FROM users';

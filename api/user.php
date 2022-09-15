@@ -16,10 +16,10 @@
 
 	// Get all or a single user from database
 	if ($api == 'GET') {
-	  if ($id != 0) {
-	    $data = $tuple->fetch($id);
+	  if ($mail != '' && $password != '') {
+	    $data = $tuple->fetch($mail, $password);
 	  } else {
-	    $data = $tuple->fetch();
+	    http_response_code(404);
 	  }
 	  echo json_encode($data);
 	}

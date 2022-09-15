@@ -2,6 +2,7 @@
 RewriteEngine On
 
 #Remove .php extension from grants.php
+RewriteRule ^login/?$ login.php [NC,L]
 RewriteRule ^user/?$ user.php [NC,L]
 RewriteRule ^grants/?$ grants.php [NC,L]
 RewriteRule ^mail/?$ mail.php [NC,L]
@@ -9,6 +10,7 @@ RewriteRule ^partenaire/?$ partenaire.php [NC,L]
 RewriteRule ^structure/?$ structure.php [NC,L]
 
 #Rewrite URL
+#RewriteRule ^login/([0-9]+)/?$ login.php?id=$1 [NC,L]
 RewriteRule ^user/([0-9]+)/?$ user.php?id=$1 [NC,L]
 RewriteRule ^grants/([0-9]+)/?$ grants.php?id=$1 [NC,L]
 RewriteRule ^mail/([0-9]+)/?$ mail.php?id=$1 [NC,L]
