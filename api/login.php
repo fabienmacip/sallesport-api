@@ -24,6 +24,27 @@
 	  echo json_encode($data);
 	}
 
+	// Get all or a single user from database
+	if ($api == 'POST') {
+
+		if(!$_POST){
+
+			$dataArray = json_decode(file_get_contents('php://input'),true);
+
+			$mail = $tuple->test_input($dataArray['mail']);
+			$pwd = $tuple->test_input($dataArray['password']);
+		} else {
+			$mail = $tuple->test_input($_POST['mail']);
+			$password = $tuple->test_input($_POST['password']);
+		}
+
+	  if ($mail != '' && $password != '') {
+	    $data = $tuple->fetchLogin($mail, $password);
+	  } else {
+	    http_response_code(404);
+	  }
+	  echo json_encode($data);
+	}
 
 
 
