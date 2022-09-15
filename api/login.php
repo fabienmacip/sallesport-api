@@ -35,11 +35,11 @@
 			$pwd = $tuple->test_input($dataArray['password']);
 		} else {
 			$mail = $tuple->test_input($_POST['mail']);
-			$password = $tuple->test_input($_POST['password']);
+			$pwd = $tuple->test_input($_POST['password']);
 		}
 
-	  if ($mail != '' && $password != '') {
-	    $data = $tuple->fetchLogin($mail, $password);
+	  if ($mail != '' && $pwd != '') {
+	    $data = $tuple->fetchLogin($mail, $pwd);
 	  } else {
 	    http_response_code(404);
 	  }
