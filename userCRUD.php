@@ -58,11 +58,23 @@
 
 	  // Update a user in the database
 	  public function update($name, $password, $email, $id) {
-	    $sql = 'UPDATE users SET name = :name, password = :password, email = :email WHERE id = :id';
+	    $sql = 'UPDATE user SET name = :name, password = :password, email = :email WHERE id = :id';
 	    $stmt = $this->conn->prepare($sql);
 	    $stmt->execute(['name' => $name, 'password' => $password, 'email' => $email, 'id' => $id]);
 	    return true;
 	  }
+
+	  // Update a user PASSWORD column in the database
+	  public function updatePassword($id, $pwd) {
+
+			$id = (int)$id;
+			
+	    $sql = 'UPDATE user SET password = :password WHERE id = :id';
+	    $stmt = $this->conn->prepare($sql);
+	    $stmt->execute(['password' => $pwd, 'id' => $id]);
+	    return true;
+	  }
+
 
 	  // Delete a user from database
 	  public function delete($id) {
