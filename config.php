@@ -22,16 +22,17 @@
 	  }
 
 	  // Sanitize Inputs
-	  public function test_input($data) {
+	  public function test_input($data, $striptags = true) {
       
       // Sanitize.
       /* $id = mysqli_real_escape_string($con, (int)$request->id);
       $name = mysqli_real_escape_string($con, trim($request->name));
       $password = mysqli_real_escape_string($con, trim($request->password));
       $email = mysqli_real_escape_string($con, trim($request->email)); */
-			
-      $data = strip_tags($data);
-			$data = htmlspecialchars($data);
+			if($striptags) {
+				$data = strip_tags($data);
+				$data = htmlspecialchars($data);
+			}
 			$data = stripslashes($data);
 			$data = trim($data);
 			

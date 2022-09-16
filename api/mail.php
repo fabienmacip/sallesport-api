@@ -48,12 +48,12 @@
 			$dataArray = json_decode(file_get_contents('php://input'),true);
 
 			$g01 = $tuple->test_input($dataArray['titre']);
-			$g02 = $tuple->test_input($dataArray['corps']);
+			$g02 = $tuple->test_input($dataArray['corps'], false);
 			$g03 = $tuple->test_input($dataArray['lien']);
 			$g04 = $tuple->test_input($dataArray['partenaire']);
 		} else {
 			$g01 = $tuple->test_input($_POST['titre']);
-			$g02 = $tuple->test_input($_POST['corps']);
+			$g02 = $tuple->test_input($_POST['corps'], false);
 			$g03 = $tuple->test_input($_POST['lien']);
 			$g04 = $tuple->test_input($_POST['partenaire']);
 		}
@@ -96,10 +96,11 @@
 					$id = $tuple->test_input($dataArray['id']);
 				} elseif(is_array($dataArray) && (array_key_exists('onlyLu', $dataArray))){
 					$lu = $tuple->test_input($dataArray['lu']);
-					$id = $tuple->test_input($dataArray['id']);
+					//$id = $tuple->test_input($dataArray['id']);
 					$onlyLu = true;
 				}
 		}
+
 
 		// Exécution requête.
 	  if ($id != null) {
