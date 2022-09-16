@@ -91,6 +91,7 @@
 	if ($api == 'PUT') {
 
 		$onlyone = false;
+		$mailId = '';
 
 	  parse_str(file_get_contents('php://input'), $post_input);
 
@@ -114,6 +115,12 @@
 		$actif = $tuple->test_input($post_input['actif']);
 		//$id = $tuple->test_input($post_input['id']);
 		$onlyone = true;
+		
+		// Si on doit également modifier le mail (si l'activation de la structure est faite via le bouton
+		// dans le mail reçu par le partenaire).
+		if(array_key_exists('mailId', $post_input)){
+			$mailId = $tuple->test_input($post_input['mailId']);
+		}
 	}
 	else {
 		// Adaptation pour fonctionner avec ANGULAR
@@ -139,21 +146,36 @@
 			$actif = $tuple->test_input($dataArray['actif']);
 			$id = $tuple->test_input($dataArray['id']);
 			$onlyone = true;
+
+			// Si on doit également modifier le mail (si l'activation de la structure est faite via le bouton
+			// dans le mail reçu par le partenaire).
+			if(is_array($dataArray) && array_key_exists('mailId', $dataArray)){
+				$mailId = $tuple->test_input($dataArray['mailId']);
+			}			
+
 		}
 	}
 
 	if ($id != null) {
 		if($onlyone == false){
-	    if ($tuple->update($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11, $id)) {
-	      echo $tuple->message('Structure modifiée avec succès !',false);
-	    } else {
-	      echo $tuple->message('Erreur lors de la modification de la structure !',true);
-	    }
+				if ($tuple->update($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11, $id)) {
+					echo $tuple->message('Structure modifiée avec succès !',false);
+				} else {
+					echo $tuple->message('Erreur lors de la modification de la structure !',true);
+				}
 		} else {
-			if ($tuple->updateActif($id, $actif)) {
-				echo $tuple->message('Structure (champ ACTIF) modifié avec succès !',false);
+			if($mailId == ''){
+				if ($tuple->updateActif($id, $actif)) {
+					echo $tuple->message('Structure (champ ACTIF) modifié avec succès !',false);
+				} else {
+					echo $tuple->message('Erreur lors de la modification de la structure (champ ACTIF) !',true);
+				}
 			} else {
-				echo $tuple->message('Erreur lors de la modification de la structure (champ ACTIF) !',true);
+						if ($tuple->updateActifAndMail($id, $actif, $mailId)) {
+							echo $tuple->message('Structure (champ ACTIF) et Mail modifiés avec succès !',false);
+						} else {
+							echo $tuple->message('Erreur lors de la modification de la structure (champ ACTIF) et du mail !',true);
+						}	
 			}
 		}
 	} else {

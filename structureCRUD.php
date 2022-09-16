@@ -75,6 +75,27 @@
 	    return true;
 	  }
 
+	  // Update a structure ACTIF column AND LIEN column in TABLE MAIL in the database
+	  public function updateActifAndMail($id, $actif, $mailId) {
+
+			$id = (int)$id;
+			$actif = (int)$actif;
+			$mailId = (int)$mailId;
+
+	    $sql = 'UPDATE structure SET actif = :actif WHERE id = :id';
+	    $stmt = $this->conn->prepare($sql);
+	    $stmt->execute(['actif' => $actif, 'id' => $id]);
+
+			$sql2 = 'UPDATE mail SET lien = "" WHERE id = :mailId';
+	    $stmt2 = $this->conn->prepare($sql2);
+	    $stmt2->execute(['mailId' => $mailId]);
+
+	    return true;
+
+	  }
+
+
+
 	  // Update a structure in the database
 	  public function update($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaire ,$grants, $id) {
 	    $sql = 'UPDATE structure SET adr1 = :adr1, adr2 = :adr2, cp = :cp, ville = :ville, mail = :mail, 
