@@ -65,10 +65,12 @@
 	// Update a partenaire in database
 	if ($api == 'PUT') {
 		$onlyone = false;
-		
+		$pwd = '';
+
 		parse_str(file_get_contents('php://input'), $post_input);
 		
 		$onlyone = is_array($post_input) && array_key_exists('onlyone', $post_input);
+		$pwd = (is_array($post_input) && array_key_exists('pwd', $post_input)) ? $tuple->test_input($post_input['pwd']) : '';
 
 		if(array_key_exists('nomfranchise', $post_input) && (!array_key_exists('onlyone', $post_input))){
 				// Si on souhaite modifier l'ensemble du partenaire
@@ -85,6 +87,9 @@
 				$actif = $tuple->test_input($post_input['actif']);
 				//$id = $tuple->test_input($post_input['id']);
 				$onlyone = true;
+			} elseif(is_array($post_input) && array_key_exists('pwd', $post_input)){
+				//$id = $tuple->test_input($post_input['id']);
+				$onlyone = true;
 			}
 		else {
 			// Adaptation pour fonctionner avec ANGULAR
@@ -94,6 +99,7 @@
 			$dataArray = json_decode(file_get_contents('php://input'),true);
 
 			$onlyone = is_array($dataArray) && array_key_exists('onlyone', $dataArray);
+			$pwd = (is_array($dataArray) && array_key_exists('pwd', $dataArray)) ? $tuple->test_input($dataArray['pwd']) : '';
 
 			if(is_array($dataArray) && array_key_exists('nomfranchise', $dataArray) && !array_key_exists('onlyone', $dataArray)){
 				$g01 = $tuple->test_input($dataArray['nomfranchise']);
@@ -107,6 +113,9 @@
 			} elseif(is_array($dataArray) && array_key_exists('actif', $dataArray) && array_key_exists('onlyone', $dataArray)) {
 				// Si on ne souhaite modifier que son champ ACTIF
 				$actif = $tuple->test_input($dataArray['actif']);
+				$id = $tuple->test_input($dataArray['id']);
+				$onlyone = true;
+			} elseif(is_array($dataArray) && array_key_exists('pwd', $dataArray)){
 				$id = $tuple->test_input($dataArray['id']);
 				$onlyone = true;
 			}
@@ -124,14 +133,22 @@
 					echo $tuple->message('Erreur lors de la modification du partenaire !',true);
 				}
 			} else {
-
-				//var_dump("----ELSE----");
-
-				if ($tuple->updateActif($id, $actif)) {
-					echo $tuple->message('Partenaire (champ ACTIF) modifié avec succès !',false);
+				if($pwd == ''){
+					if ($tuple->updateActif($id, $actif)) {
+						echo $tuple->message('Partenaire (champ ACTIF) modifié avec succès !',false);
+					} else {
+						echo $tuple->message('Erreur lors de la modification du partenaire (champ ACTIF) !',true);
+					}
 				} else {
-					echo $tuple->message('Erreur lors de la modification du partenaire (champ ACTIF) !',true);
+					if ($tuple->updatePassword($id, $pwd)) {
+						echo $tuple->message('Partenaire (champ MOT DE PASSE) modifié avec succès !',false);
+					} else {
+						echo $tuple->message('Erreur lors de la modification du partenaire (champ MOT DE PASSE) !',true);
+					}
+
 				}
+				
+
 			}
 	  } else {
 	    echo $tuple->message('Partenaire non trouvé !',true);

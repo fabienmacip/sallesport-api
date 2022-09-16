@@ -62,6 +62,17 @@
 	    return true;
 	  }
 
+	  // Update a partenaire PASSWORD column in the database
+	  public function updatePassword($id, $pwd) {
+
+			$id = (int)$id;
+			
+	    $sql = 'UPDATE partenaire SET password = :password WHERE id = :id';
+	    $stmt = $this->conn->prepare($sql);
+	    $stmt->execute(['password' => $pwd, 'id' => $id]);
+	    return true;
+	  }
+
 	  // Update a partenaire in the database
 	  public function update($nomfranchise, $sexegerant, $nomgerant, $mail, $password, $actif, $grants, $id) {
 
