@@ -23,7 +23,7 @@
     // Fetch all mails linked to a partenaire from database
 		//readStructuresOfPartenaire
 	  public function fetchMailsFromPartenaire($id) {
-	    $sql = 'SELECT * FROM mail WHERE partenaire = :id';
+	    $sql = 'SELECT * FROM mail WHERE partenaire = :id ORDER BY id DESC';
 			$stmt = $this->conn->prepare($sql);
 			$stmt->execute(['id' => $id]);
 	    $rows = $stmt->fetchAll();

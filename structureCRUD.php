@@ -22,8 +22,11 @@
 
     // Fetch all structures linked to a partenaire from database
 		//readStructuresOfPartenaire
-	  public function fetchLinkedToPartenaire($id) {
+	  public function fetchLinkedToPartenaire($id, $last = '') {
 	    $sql = 'SELECT * FROM structure WHERE partenaire = :id';
+			if($last == 'yes'){
+				$sql .= ' ORDER BY id DESC LIMIT 1';
+			}
 			$stmt = $this->conn->prepare($sql);
 			$stmt->execute(['id' => $id]);
 	    $rows = $stmt->fetchAll();

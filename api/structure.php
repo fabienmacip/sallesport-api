@@ -25,9 +25,13 @@
 		$partenaireId = $_GET['partenaireId'];
 	}
 
+	$last = '';
+	if(isset($_GET['last'])){
+		$last = $_GET['last'];
+	}
 
 	  if(isset($partenaireId) && $partenaireId != 0){
-			$data = $tuple->fetchLinkedToPartenaire($partenaireId);
+			$data = $tuple->fetchLinkedToPartenaire($partenaireId, $last);
 		} else {
 			if (isset($id) && $id != 0) {
 				$data = $tuple->fetch($id);

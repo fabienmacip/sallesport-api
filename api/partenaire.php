@@ -53,6 +53,7 @@
 			//$g07 = $tuple->test_input($_POST['grants']);
 		}
 
+
 	  if ($g01 !== '' && $g04 !== '' && $g05 !== '' && 
 				$tuple->insert($g01, $g02, $g03, $g04, $g05, $g06, 1)) {
 	    echo $tuple->message('Partenaire ajouté avec succès !',false);
