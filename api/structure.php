@@ -76,10 +76,7 @@
 		}
 		
 
-
-
-
-	  if ($g01 !== '' && $g04 !== '' && $g05 !== '' && 
+		if ($g01 !== '' && $g04 !== '' && $g05 !== '' && 
 				$tuple->insert($g01, $g02, $g03, $g04, $g05, $g06, $g07, $g08, $g09, $g10, $g11)) {
 	    echo $tuple->message('Structure ajoutée avec succès !',false);
 	  } else {

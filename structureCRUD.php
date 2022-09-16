@@ -39,6 +39,7 @@
 	  public function insert($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaire ,$grants) {
 
 			$partenaire = (int)$partenaire;
+			$password = password_hash($password, PASSWORD_BCRYPT);
 
 			$sql = 'INSERT INTO `grants` (`membersread`, `memberswrite`, `membersadd`, `membersupdate`, 
 							`membersproductsadd`, `memberspaymentscheduleread`, `membersstatsread`, 
@@ -98,12 +99,15 @@
 
 	  // Update a structure in the database
 	  public function update($adr1, $adr2, $cp, $ville, $mail, $password, $sexegerant, $nomgerant, $actif, $partenaire ,$grants, $id) {
-	    $sql = 'UPDATE structure SET adr1 = :adr1, adr2 = :adr2, cp = :cp, ville = :ville, mail = :mail, 
-																	 password = :password, sexegerant = :sexegerant, nomgerant = :nomgerant, 
+	    
+			//$password = password_hash($password, PASSWORD_BCRYPT);
+			
+			$sql = 'UPDATE structure SET adr1 = :adr1, adr2 = :adr2, cp = :cp, ville = :ville, mail = :mail, 
+																	 sexegerant = :sexegerant, nomgerant = :nomgerant, 
 																	 actif = :actif, partenaire = :partenaire, grants = :grants WHERE id = :id';
 	    $stmt = $this->conn->prepare($sql);
 	    $stmt->execute(['adr1' => $adr1, 'adr2' => $adr2, 'cp' => $cp, 'ville' => $ville,  
-											'mail' => $mail,  'password' => $password, 'sexegerant' => $sexegerant, 
+											'mail' => $mail, 'sexegerant' => $sexegerant, 
 											'nomgerant' => $nomgerant, 'actif' => $actif, 'partenaire' => $partenaire, 
 											'grants' => $grants, 'id' => $id]);
 	    return true;

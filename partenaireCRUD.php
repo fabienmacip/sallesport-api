@@ -23,6 +23,8 @@
 	  // Insert a partenaire in the database
 	  public function insert($nomfranchise, $sexegerant, $nomgerant, $mail, $password, $actif, $grants = 1) {
 
+			$password = password_hash($password, PASSWORD_BCRYPT);
+
 			$sql = 'INSERT INTO `grants` (`membersread`, `memberswrite`, `membersadd`, `membersupdate`, 
 							`membersproductsadd`, `memberspaymentscheduleread`, `membersstatsread`, 
 							`memberssubscriptionread`, `paymentschedulesread`, `paymentscheduleswrite`, 
@@ -65,6 +67,8 @@
 	  // Update a partenaire PASSWORD column in the database
 	  public function updatePassword($id, $pwd) {
 
+			$pwd = password_hash($pwd, PASSWORD_BCRYPT);
+
 			$id = (int)$id;
 			
 	    $sql = 'UPDATE partenaire SET password = :password WHERE id = :id';
@@ -80,12 +84,12 @@
 			$actif = (int)$actif;
 			$grants = (int)$grants;
 
-	    $sql = 'UPDATE partenaire SET nomfranchise = :nomfranchise, sexegerant = :sexegerant, 
-																nomgerant = :nomgerant, mail = :mail,  password = :password, 
+			$sql = 'UPDATE partenaire SET nomfranchise = :nomfranchise, sexegerant = :sexegerant, 
+																nomgerant = :nomgerant, mail = :mail,
 																actif = :actif, grants = :grants WHERE id = :id';
 	    $stmt = $this->conn->prepare($sql);
 	    $stmt->execute(['nomfranchise' => $nomfranchise, 'sexegerant' => $sexegerant, 
-											'nomgerant' => $nomgerant, 'mail' => $mail,  'password' => $password, 
+											'nomgerant' => $nomgerant, 'mail' => $mail, 
 											'actif' => $actif, 'grants' => $grants, 'id' => $id]);
 	    return true;
 	  }

@@ -10,22 +10,37 @@
 			$pwd = trim($pwd);
 			$mail = trim($mail);
 
-			$sql = 'SELECT id, name, email FROM user WHERE email = :mail AND password = :pwd ORDER BY id DESC LIMIT 1';
+			$sql = 'SELECT id, name, email, password FROM user WHERE email = :mail ORDER BY id DESC LIMIT 1';
+
 			$stmt = $this->conn->prepare($sql);
-			$stmt->execute(['mail' => $mail, 'pwd' => $pwd]);
+			$stmt->execute(['mail' => $mail]);
 			$rows = $stmt->fetchAll();
 
+/* 			var_dump($rows);
+			die();
+ */
 			if(empty($rows)){
-				$sql2 = 'SELECT id, nomfranchise, mail FROM partenaire WHERE mail = :mail AND password = :pwd ORDER BY id DESC LIMIT 1';
+				$sql2 = 'SELECT id, nomfranchise, mail, password FROM partenaire WHERE mail = :mail ORDER BY id DESC LIMIT 1';
 				
 				$stmt2 = $this->conn->prepare($sql2);
-				$stmt2->execute(['mail' => $mail, 'pwd' => $pwd]);
+				$stmt2->execute(['mail' => $mail]);
 				$rows2 = $stmt2->fetchAll();
-				return $rows2;
+				
+/* 				var_dump($rows2);
+				die();
+ */
+
+				if($rows2 && password_verify($pwd, $rows2[0]['password'])){
+					unset($rows2[0]['password']);
+					return $rows2;
+				}
 				
 				die();
 			} else {
-				return $rows;
+				if($rows && password_verify($pwd, $rows[0]['password'])){
+					unset($rows[0]['password']);
+					return $rows;
+				}
 			}
 
 		}

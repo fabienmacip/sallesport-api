@@ -1,4 +1,5 @@
 <?php
+session_start();
 	// Include CORS headers
 	include_once '../headers.php';
 	
@@ -40,7 +41,7 @@
 
 	  if ($mail != '' && $pwd != '') {
 	    $data = $tuple->fetchLogin($mail, $pwd);
-	  } else {
+		} else {
 	    http_response_code(404);
 	  }
 	  echo json_encode($data);
