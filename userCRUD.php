@@ -64,6 +64,9 @@
 
 	  // Insert a user in the database
 	  public function insert($name, $password, $email) {
+
+			$password = password_hash($password, PASSWORD_BCRYPT);
+
 	    $sql = 'INSERT INTO users (name, password, email) 
 											VALUES (:name, :password, :email)';
 	    $stmt = $this->conn->prepare($sql);
@@ -73,9 +76,9 @@
 
 	  // Update a user in the database
 	  public function update($name, $password, $email, $id) {
-	    $sql = 'UPDATE user SET name = :name, password = :password, email = :email WHERE id = :id';
+	    $sql = 'UPDATE user SET name = :name, email = :email WHERE id = :id';
 	    $stmt = $this->conn->prepare($sql);
-	    $stmt->execute(['name' => $name, 'password' => $password, 'email' => $email, 'id' => $id]);
+	    $stmt->execute(['name' => $name, 'email' => $email, 'id' => $id]);
 	    return true;
 	  }
 
@@ -83,6 +86,7 @@
 	  public function updatePassword($id, $pwd) {
 
 			$id = (int)$id;
+			$pwd = password_hash($pwd, PASSWORD_BCRYPT);
 			
 	    $sql = 'UPDATE user SET password = :password WHERE id = :id';
 	    $stmt = $this->conn->prepare($sql);
