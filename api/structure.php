@@ -17,18 +17,20 @@
 	// Get all or a single structure from database
 	if ($api == 'GET') {
 
-	if(isset($_GET['id'])) {
-		$id = $_GET['id'];
-	}
-
-	if(isset($_GET['partenaireId'])) {
-		$partenaireId = $_GET['partenaireId'];
-	}
-
+		if(isset($_GET['id'])) {
+			$id = (int)$_GET['id'];
+		}
+		
+		if(isset($_GET['partenaireId'])) {
+			$partenaireId = (int)$_GET['partenaireId'];
+		}
+		
+		
 	$last = '';
 	if(isset($_GET['last'])){
 		$last = $_GET['last'];
 	}
+
 
 	  if(isset($partenaireId) && $partenaireId != 0){
 			$data = $tuple->fetchLinkedToPartenaire($partenaireId, $last);
@@ -39,7 +41,6 @@
 				$data = $tuple->fetch();
 			}
 		}
-		
 	  echo json_encode($data);
 	}
 

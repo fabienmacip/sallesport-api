@@ -16,12 +16,13 @@
 
 	// Get all or a single partenaire from database
 	if ($api == 'GET') {
-	  if ($id != 0) {
-	    $data = $tuple->fetch($id);
+		
+		if ($id != 0) {
+			$data = $tuple->fetch($id);
 	  } else {
-	    $data = $tuple->fetch();
+			$data = $tuple->fetch();
 	  }
-	  echo json_encode($data);
+		echo json_encode($data);
 	}
 
 	// Add a new partenaire into database

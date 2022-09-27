@@ -13,7 +13,7 @@
 	  // Constructor Function
 	  public function __construct() {
 	    try {
-	      $this->conn = new PDO($this->dsn, self::DBUSER, self::DBPASS);
+	      $this->conn = new PDO($this->dsn, self::DBUSER, self::DBPASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"));
 	      $this->conn->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 	    } catch (PDOException $e) {
 	      die('Connectionn Failed : ' . $e->getMessage());
