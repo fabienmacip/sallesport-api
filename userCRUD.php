@@ -19,7 +19,8 @@
 /* 			var_dump($rows);
 			die();
  */
-			if(empty($rows)){
+			// Si on n'a pas trouvé de USER, c'est-à-dire d'ADMINISTRATEUR, alors on cherche un PARTENAIRE
+ 			if(empty($rows)){
 				$sql2 = 'SELECT id, nomfranchise, mail, password FROM partenaire WHERE mail = :mail ORDER BY id DESC LIMIT 1';
 				
 				$stmt2 = $this->conn->prepare($sql2);
@@ -32,6 +33,8 @@
 
 				if($rows2 && password_verify($pwd, $rows2[0]['password'])){
 					unset($rows2[0]['password']);
+					$rows2[0]['token'] = 'ok-token-partenaire';
+					$rows2[0]['role'] = 'partenaire';
 					return $rows2;
 				}
 				
@@ -39,6 +42,8 @@
 			} else {
 				if($rows && password_verify($pwd, $rows[0]['password'])){
 					unset($rows[0]['password']);
+					$rows[0]['token'] = 'ok-token-admin';
+					$rows[0]['role'] = 'admin';
 					return $rows;
 				}
 			}
