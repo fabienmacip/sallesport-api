@@ -26,7 +26,8 @@
 
 	// CHECK TOKEN
 	$headers = apache_request_headers();
-	if(isset($headers['X-API-KEY']) && ($headers['X-API-KEY'] == 'ok-token-admin' || $headers['X-API-KEY'] == 'ok-token-partenaire')){
+	$tokenok = $headers['X-API-KEY'] ?? $_SERVER['HTTP_X_API_KEY'] ?? '';
+	if($tokenok == 'ok-token-admin' || $tokenok == 'ok-token-partenaire'){
 	// END CHECK TOKEN		
 
 		// Add a new grants into database
